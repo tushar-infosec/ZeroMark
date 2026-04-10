@@ -1,23 +1,40 @@
 # ZeroMark
 
-A simple password obfuscation tool that turns memorable passwords into scrambled versions - no storage, no backend.
+A simple password obfuscation tool that transforms memorable passwords into scrambled versions - completely client-side, zero storage.
 
-## What it does
+🔗 **[Try ZeroMark Live](https://tushar-infosec.github.io/ZeroMark/)** ← Use it now!
 
-Takes your password like `tushar@123` and converts it to something like `564Bvdjwxv#Z`. Same input = same output, every time.
+---
+
+## What It Does
+
+Converts your password like `tushar@123` into something like `564Bvdjwxv#Z`. 
+
+**Same input always gives same output** - deterministic scrambling.
+
+---
 
 ## Features
 
-- Deterministic password scrambling
-- URL-safe mode option
-- Character limit (20 chars)
-- Show/hide password toggle
-- Matrix rain animation background
-- Nothing saved anywhere
+- ✅ Deterministic password obfuscation
+- ✅ URL-safe mode option
+- ✅ 20 character limit with live counter
+- ✅ Show/hide password toggle
+- ✅ Animated matrix rain background
+- ✅ Glassmorphic design with 3D tilt effect
+- ✅ Zero data storage - everything runs in your browser
 
-## How to use
+---
 
-1. Clone this repo
+## Quick Start
+
+### Option 1: Use Online (Recommended)
+Just visit: **https://tushar-infosec.github.io/ZeroMark/**
+
+No installation needed!
+
+### Option 2: Run Locally
+
 ```bash
 git clone https://github.com/tushar-infosec/ZeroMark.git
 cd ZeroMark
