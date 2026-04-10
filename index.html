@@ -1,160 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZeroMark</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZeroMark - Password Obfuscation Tool</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<!-- Matrix background -->
-<canvas id="matrix"></canvas>
+  <!-- Matrix rain background -->
+  <canvas id="matrix"></canvas>
 
-<div class="app">
-  <div class="card">
+  <div class="app">
+    <div class="card">
 
-    <!-- STEP 1 -->
-    <div id="step1">
-      <div class="avatar">
-        <img src="assets/profile.jpg" alt="Tushar Mumbre">
-      </div>
+      <!-- ========== STEP 1: HOME ========== -->
+      <div id="step1">
+        <div class="avatar">
+          <img src="assets/profile.jpg" alt="Tushar Mumbre">
+        </div>
 
-      <h1>ZeroMark</h1>
-      <p class="subtitle">Developed by Tushar Mumbre</p>
+        <h1>ZeroMark</h1>
+        <p class="subtitle">Developed by Tushar Mumbre</p>
 
-      <div class="socials">
-        <a href="https://www.linkedin.com/in/tushar-mumbre-a7615a28a/" target="_blank">LinkedIn</a>
-        <a href="https://github.com/tushar-infosec" target="_blank">GitHub</a>
-      </div>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/tushar-mumbre-a7615a28a/" target="_blank">LinkedIn</a>
+          <a href="https://github.com/tushar-infosec" target="_blank">GitHub</a>
+        </div>
 
-      <button onclick="openEncrypt()">Encrypt</button>
+        <button onclick="openEncrypt()">Encrypt Password</button>
 
-      <div class="footer">
-        <div class="warn">⚠ Your data is not stored. Privacy respected.</div>
-        <div class="note">
-          Deterministic obfuscation only. Not cryptographic encryption.
+        <div class="footer">
+          <div class="warn">⚠ Your data is not stored. Privacy respected.</div>
+          <div class="note">
+            Deterministic obfuscation only. Not cryptographic encryption.
+          </div>
         </div>
       </div>
+
+      <!-- ========== STEP 2: ENCRYPT ========== -->
+      <div id="step2">
+        <div class="inner-panel">
+
+          <h2 class="panel-title">Generate Secure Password</h2>
+
+          <div class="info-box">
+            🔑 Provide a unique password with symbols or numbers (e.g. 
+            <b>Kolkata@2025</b>, <b>Indian_Army</b>, <b>Police@100</b>).
+          </div>
+
+          <div class="input-row">
+            <input type="password" id="inputText" maxlength="20" placeholder="Enter your password">
+            <button class="show-btn" onclick="togglePassword()">Show</button>
+          </div>
+
+          <div class="row">
+            <label class="switch">
+              <input type="checkbox" id="urlSafe">
+              <span class="slider"></span>
+            </label>
+            <span>URL-safe mode</span>
+            <span class="count"><span id="count">0</span>/20</span>
+          </div>
+
+          <button onclick="generate()">Create Password</button>
+
+          <div id="output" class="output"></div>
+
+          <div class="danger-box">
+            🔐 You don't need to remember the encrypted password. Just remember 
+            the original - we'll convert it every time.
+          </div>
+
+        </div>
+      </div>
+
     </div>
-
-    <div id="step2" style="display:none;">
-  <div class="inner-panel">
-
-    <h2 class="panel-title">Generate Secure Password</h2>
-
-    <div class="info-box">
-      🔑 Please provide a unique name combined with a symbol or number
-      to create a secure password (e.g.
-      <b>Kolkata@2025</b>, <b>Indian_Army</b>, <b>Police@100</b>).
-    </div>
-
-    <div class="input-row">
-      <input type="password" id="inputText" maxlength="20" placeholder="Enter your password">
-      <button class="show-btn" onclick="togglePassword()">Show</button>
-    </div>
-
-    <div class="row">
-      <label class="switch">
-        <input type="checkbox" id="urlSafe">
-        <span class="slider"></span>
-      </label>
-      <span class="url-text">URL-safe mode</span>
-      <span class="count"><span id="count">0</span>/20</span>
-    </div>
-
-    <button class="btn-primary" onclick="generate()">Create</button>
-
-    <!-- OUTPUT MOVED HERE -->
-    <div id="output" class="output-line"></div>
-
-    <div class="danger-box">
-      🔐 You need not remember the encrypted password; remember the original,
-      and we will provide the encrypted format.
-    </div>
-
   </div>
-</div>
 
-
-<script>
-/* ---------- UI FLOW ---------- */
-function openEncrypt(){
-  document.getElementById("step1").style.display="none";
-  document.getElementById("step2").style.display="block";
-}
-
-/* ---------- PASSWORD VISIBILITY ---------- */
-function togglePassword(){
-  const input=document.getElementById("inputText");
-  input.type = input.type === "password" ? "text" : "password";
-}
-
-/* ---------- COUNTER ---------- */
-document.addEventListener("input",()=>{
-  const input=document.getElementById("inputText");
-  const count=document.getElementById("count");
-  if(input && count){
-    count.innerText=input.value.length;
-  }
-});
-
-/* ---------- GENERATOR ---------- */
-function generate(){
-  const input=document.getElementById("inputText").value;
-  if(input.length < 8){
-    document.getElementById("output").innerText =
-      " Minimum 8 characters required";
-    return;
-  }
-
-  let hash=0;
-  for(let i=0;i<input.length;i++){
-    hash=(hash*31+input.charCodeAt(i))%100000;
-  }
-
-  let result="";
-  for(let i=0;i<input.length;i++){
-    result+=String.fromCharCode(input.charCodeAt(i)+(hash%5)+(i%3));
-  }
-
-  result=result.split("").reverse().join("")+"#Z";
-  document.getElementById("output").innerText="Encrypted Output: "+result;
-}
-
-/* ---------- MATRIX BACKGROUND ---------- */
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
-resize();
-window.onresize=resize;
-
-const chars="01アカサタナハマヤラワ";
-const size=14;
-let columns=Math.floor(window.innerWidth/size);
-let drops=Array(columns).fill(0);
-
-setInterval(()=>{
-  ctx.fillStyle="rgba(11,16,32,0.15)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#10b981";
-  ctx.font=size+"px monospace";
-
-  for(let i=0;i<drops.length;i++){
-    const text=chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(text,i*size,drops[i]*size);
-    if(drops[i]*size>canvas.height && Math.random()>0.97){
-      drops[i]=0;
+  <!-- Main Script -->
+  <script>
+    // Switch to encryption screen
+    function openEncrypt() {
+      document.getElementById("step1").style.display = "none";
+      document.getElementById("step2").style.display = "block";
     }
-    drops[i]++;
-  }
-},50);
-</script>
-<script src="js/ui-effects.js"></script>
+
+    // Toggle password visibility
+    function togglePassword() {
+      const input = document.getElementById("inputText");
+      const btn = event.target;
+      
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "Hide";
+      } else {
+        input.type = "password";
+        btn.textContent = "Show";
+      }
+    }
+
+    // Character counter
+    document.addEventListener("input", function() {
+      const input = document.getElementById("inputText");
+      const counter = document.getElementById("count");
+      if (input && counter) {
+        counter.textContent = input.value.length;
+      }
+    });
+
+    // Password generator
+    function generate() {
+      const input = document.getElementById("inputText").value;
+      const output = document.getElementById("output");
+
+      if (input.length < 8) {
+        output.textContent = "⚠ Minimum 8 characters required";
+        output.style.color = "#f87171";
+        return;
+      }
+
+      // Simple hash calculation
+      let hash = 0;
+      for (let i = 0; i < input.length; i++) {
+        hash = (hash * 31 + input.charCodeAt(i)) % 100000;
+      }
+
+      // Character shifting
+      let result = "";
+      for (let i = 0; i < input.length; i++) {
+        let shiftedChar = input.charCodeAt(i) + (hash % 5) + (i % 3);
+        result += String.fromCharCode(shiftedChar);
+      }
+
+      // Reverse and add signature
+      result = result.split("").reverse().join("") + "#Z";
+
+      output.textContent = "Encrypted: " + result;
+      output.style.color = "#34d399";
+    }
+
+    // Matrix rain background
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const characters = "01アカサタナハマヤラワ";
+    const fontSize = 14;
+    let columns = Math.floor(window.innerWidth / fontSize);
+    let drops = Array(columns).fill(0);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(11, 16, 32, 0.15)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = "#10b981";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = characters[Math.floor(Math.random() * characters.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.97) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 50);
+  </script>
+
+  <!-- UI Effects -->
+  <script src="js/ui-effects.js"></script>
+
 </body>
 </html>
