@@ -43,32 +43,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
 /* ================= MAIN CARD ================= */
 .card {
   position: relative;
   width: 100%;
-  max-width: 440px;                 /* Bigger card */
+  max-width: 440px;
   padding: 36px 30px;
   border-radius: 22px;
-
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid rgba(148, 163, 184, 0.22);
-
   backdrop-filter: blur(14px) saturate(120%);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
-
-  box-shadow:
-    0 22px 55px rgba(16,185,129,0.14),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
-
+  box-shadow: 0 22px 55px rgba(16,185,129,0.14),
+              inset 0 0 0 1px rgba(255,255,255,0.05);
   transform-style: preserve-3d;
   transition: transform 0.18s ease, box-shadow 0.2s ease;
   overflow: hidden;
 }
 
-/* ===== Mouse glow ===== */
+/* Mouse glow effect */
 .card::after {
   content: "";
   position: absolute;
@@ -89,17 +85,11 @@ body {
   opacity: 1;
 }
 
-/* Gentle tilt */
-.card:hover {
-  transform: perspective(900px) rotateX(1deg) rotateY(-1deg);
-}
-
-/* ================= STEP 1 ================= */
+/* ================= STEP 1 - HOME ================= */
 #step1 {
   text-align: center;
 }
 
-/* Avatar */
 .avatar {
   width: 130px;
   height: 130px;
@@ -116,14 +106,12 @@ body {
   border-radius: 50%;
 }
 
-/* Title */
 h1 {
   font-size: 42px;
   font-family: 'JetBrains Mono', monospace;
   color: var(--neon-green);
-  text-shadow:
-    0 0 10px rgba(52,211,153,0.6),
-    0 0 26px rgba(99,102,241,0.35);
+  text-shadow: 0 0 10px rgba(52,211,153,0.6),
+               0 0 26px rgba(99,102,241,0.35);
   margin-bottom: 6px;
 }
 
@@ -133,7 +121,6 @@ h1 {
   margin-bottom: 14px;
 }
 
-/* Socials */
 .socials {
   display: flex;
   justify-content: center;
@@ -153,7 +140,7 @@ h1 {
   text-shadow: 0 0 8px rgba(16,185,129,0.6);
 }
 
-/* Encrypt Button */
+/* ================= BUTTONS ================= */
 button {
   width: 100%;
   padding: 14px;
@@ -163,7 +150,6 @@ button {
   font-weight: 600;
   color: #ecfeff;
   cursor: pointer;
-
   background: linear-gradient(135deg, var(--neon-strong), var(--indigo));
   box-shadow: 0 10px 28px rgba(16,185,129,0.35);
   transition: transform 0.15s ease, box-shadow 0.2s ease;
@@ -171,12 +157,15 @@ button {
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow:
-    0 14px 34px rgba(16,185,129,0.45),
-    0 0 18px rgba(99,102,241,0.35);
+  box-shadow: 0 14px 34px rgba(16,185,129,0.45),
+              0 0 18px rgba(99,102,241,0.35);
 }
 
-/* Footer */
+button:active {
+  transform: translateY(0);
+}
+
+/* ================= FOOTER ================= */
 .footer {
   margin-top: 16px;
   font-size: 13px;
@@ -192,7 +181,7 @@ button:hover {
   font-size: 12px;
 }
 
-/* ================= STEP 2 ================= */
+/* ================= STEP 2 - ENCRYPT ================= */
 #step2 {
   display: none;
 }
@@ -204,15 +193,12 @@ button:hover {
   padding: 28px;
 }
 
-/* Section title */
-.panel-title,
-.sec-title {
+.panel-title {
   font-size: 22px;
   color: var(--neon-green);
   margin-bottom: 14px;
 }
 
-/* Info box */
 .info-box {
   background: rgba(16,185,129,0.12);
   border: 1px solid rgba(16,185,129,0.35);
@@ -220,9 +206,10 @@ button:hover {
   padding: 14px;
   font-size: 14px;
   margin-bottom: 16px;
+  line-height: 1.5;
 }
 
-/* Input row */
+/* ================= INPUT FIELDS ================= */
 .input-row {
   display: flex;
   gap: 10px;
@@ -237,6 +224,8 @@ button:hover {
   border: 1px solid rgba(148,163,184,0.25);
   color: #e5e7eb;
   outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-row input:focus {
@@ -251,9 +240,15 @@ button:hover {
   color: #e5e7eb;
   border: none;
   cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
-/* Toggle row */
+.show-btn:hover {
+  background: rgba(148,163,184,0.3);
+}
+
+/* ================= TOGGLE SWITCH ================= */
 .row {
   display: flex;
   align-items: center;
@@ -280,6 +275,7 @@ button:hover {
   background: rgba(148,163,184,0.3);
   border-radius: 999px;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .slider::before {
@@ -305,21 +301,24 @@ button:hover {
 .count {
   margin-left: auto;
   color: #9ca3af;
+  font-size: 13px;
 }
 
-/* Create button */
-.create-btn {
-  margin-top: 6px;
-}
-
-/* Output */
+/* ================= OUTPUT ================= */
 .output {
   margin-top: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.3);
   font-size: 14px;
   color: var(--neon-green);
+  word-break: break-all;
+  min-height: 40px;
+  font-family: 'Courier New', monospace;
 }
 
-/* Danger box */
+/* ================= DANGER BOX ================= */
 .danger-box {
   margin-top: 16px;
   padding: 14px;
@@ -328,4 +327,21 @@ button:hover {
   border: 1px solid rgba(248,113,113,0.35);
   font-size: 13px;
   color: #fecaca;
+  line-height: 1.5;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
+  .card {
+    padding: 24px 20px;
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
 }
